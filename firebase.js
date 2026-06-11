@@ -4,15 +4,26 @@
  * and dynamically initializes Firebase Firestore if the configuration is populated.
  */
 
-// Paste your Firebase Config here if you want to connect to a real database:
 const firebaseConfig = {
-    apiKey: "",
-    authDomain: "",
-    projectId: "",
-    storageBucket: "",
-    messagingSenderId: "",
-    appId: ""
+    apiKey: "AIzaSyAILW1wZPvtkQfEoBccr5KlMLbhOM4Czfk",
+    authDomain: "gala-b23c0.firebaseapp.com",
+    projectId: "gala-b23c0",
+    storageBucket: "gala-b23c0.firebasestorage.app",
+    messagingSenderId: "561953677467",
+    appId: "1:561953677467:web:5866d3d3abb83b8571663e",
+    measurementId: "G-YH7LTW9CKS"
 };
+
+// Promise timeout helper to prevent hanging on Firestore network/initialization issues
+function promiseTimeout(promise, ms) {
+    let timeout = new Promise((resolve, reject) => {
+        let id = setTimeout(() => {
+            clearTimeout(id);
+            reject(new Error(`Firebase operation timed out after ${ms}ms`));
+        }, ms);
+    });
+    return Promise.race([promise, timeout]);
+}
 
 class GalaDatabase {
     constructor() {
@@ -154,7 +165,7 @@ class GalaDatabase {
 
         if (this.useFirebase && this.db) {
             try {
-                await this.db.collection("registrations").doc(record.id).set(record);
+                await promiseTimeout(this.db.collection("registrations").doc(record.id).set(record), 2500);
                 this.triggerListeners();
                 return record;
             } catch (error) {
@@ -177,7 +188,7 @@ class GalaDatabase {
     async deleteRegistration(id) {
         if (this.useFirebase && this.db) {
             try {
-                await this.db.collection("registrations").doc(id).delete();
+                await promiseTimeout(this.db.collection("registrations").doc(id).delete(), 2500);
                 this.triggerListeners();
                 return true;
             } catch (error) {
@@ -200,7 +211,7 @@ class GalaDatabase {
     async getAllRegistrations() {
         if (this.useFirebase && this.db) {
             try {
-                const snapshot = await this.db.collection("registrations").get();
+                const snapshot = await promiseTimeout(this.db.collection("registrations").get(), 2500);
                 const regs = [];
                 snapshot.forEach(doc => regs.push(doc.data()));
                 return regs;
