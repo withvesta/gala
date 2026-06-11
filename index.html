@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KUPSAgala 2026 | Registration & Invitation Portal</title>
+    <meta name="description" content="Official registration portal for the exclusive Pharmaceutical Gala Event taking place on Friday, 17th July 2026 at the Convocation Hall.">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Local Styling -->
+    <link rel="stylesheet" href="gala.css">
+</head>
+<body>
+    <!-- Premium Ambient Background Blur Elements -->
+    <div class="glow-bg">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="app-header">
+        <div class="header-container">
+            <div class="logo">
+                <img src="kupsa-logo.jpg" alt="KUPSA Logo" class="logo-img">
+                <span class="logo-text">KUPSAgala <span class="gold-text">2026</span></span>
+            </div>
+            <nav class="nav-links">
+                <button id="nav-btn-register" class="nav-btn active" onclick="switchView('register')">
+                    <i class="fa-solid fa-user-pen"></i> Register
+                </button>
+                <button id="nav-btn-admin" class="nav-btn" onclick="switchView('admin-login')">
+                    <i class="fa-solid fa-lock"></i> Admin Portal
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="app-main">
+        
+        <!-- ================= REGISTER SECTION ================= -->
+        <section id="view-register" class="view-section active">
+            <div class="hero-container">
+                <h1 class="hero-title">A Night of Professional Radiance</h1>
+                <p class="hero-subtitle">Honoring excellence and building connections. Register below to receive your exclusive invitation.</p>
+            </div>
+            
+            <div class="card-container form-card">
+                <div class="card-header">
+                    <h2>Registration Form</h2>
+                    <p class="card-subtitle">Provide your credentials to claim your table invitation</p>
+                </div>
+                
+                <form id="registration-form" onsubmit="handleRegistration(event)">
+                    <div class="form-group">
+                        <label for="reg-name"><i class="fa-regular fa-user"></i> Full Name</label>
+                        <input type="text" id="reg-name" required placeholder="e.g. Dr. Jane Smith" autocomplete="name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reg-email"><i class="fa-regular fa-envelope"></i> Email Address</label>
+                        <input type="email" id="reg-email" required placeholder="e.g. janesmith@example.com" autocomplete="email">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reg-no"><i class="fa-solid fa-id-card"></i> Registration Number</label>
+                        <input type="text" id="reg-no" required placeholder="e.g. PHAM/M/1234/23/25" autocomplete="off">
+                        <small class="helper-text">Format: PHAM/M/XXXX/YY/ZZ or PHAM/MK/XXXX/YY/ZZ</small>
+                        <div id="reg-no-feedback" class="feedback-msg"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="reg-year"><i class="fa-solid fa-graduation-cap"></i> Year of Study</label>
+                        <select id="reg-year" required>
+                            <option value="" disabled selected>Select your study year</option>
+                            <option value="1">Year 1</option>
+                            <option value="2">Year 2</option>
+                            <option value="3">Year 3</option>
+                            <option value="4">Year 4</option>
+                            <option value="5">Year 5</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn gold-gradient-btn">
+                        <span>Generate Invitation</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- ================= INVITATION SECTION ================= -->
+        <section id="view-invitation" class="view-section">
+            <div class="invitation-action-bar">
+                <button class="action-btn back-btn" onclick="switchView('register')">
+                    <i class="fa-solid fa-arrow-left"></i> Register Another
+                </button>
+                <button class="action-btn download-btn gold-gradient-btn" onclick="printInvitation()">
+                    <i class="fa-solid fa-print"></i> Print / Save PDF
+                </button>
+            </div>
+
+            <!-- The Letter Frame -->
+            <div class="letter-outer-frame">
+                <div id="invitation-card" class="letter-inner-card">
+                    <!-- Filigree Border Elements -->
+                    <div class="filigree filigree-tl"></div>
+                    <div class="filigree filigree-tr"></div>
+                    <div class="filigree filigree-bl"></div>
+                    <div class="filigree filigree-br"></div>
+                    
+                    <div class="letter-header">
+                        <div class="letter-crest">
+                            <img src="kupsa-logo.jpg" alt="KUPSA Logo" class="letter-crest-img">
+                        </div>
+                        <div class="letter-title">KUPSA GALA 2026</div>
+                        <div class="letter-subtitle">Annual Gala Dinner 2026</div>
+                        <div class="letter-theme">Theme: Turning Back the Clock Vintage</div>
+                    </div>
+                    
+                    <div class="letter-body">
+                        <p class="salutation">Dear <span id="letter-name" class="letter-highlight"></span>,</p>
+                        
+                        <p class="intro-paragraph">
+                            It is with great pleasure that we extend this formal invitation to you for the prestigious Annual Pharmaceutical Gala. We would be honored to celebrate this memorable evening of achievement, dedication, and clinical fellowship in your presence.
+                        </p>
+                        
+                        <div class="event-details-grid">
+                            <div class="detail-item">
+                                <div class="detail-label">Date</div>
+                                <div class="detail-val">Friday, 17th July 2026</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Time</div>
+                                <div class="detail-val">From 6:30 PM</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Venue</div>
+                                <div class="detail-val font-serif">The Convocation Hall</div>
+                            </div>
+                        </div>
+
+                        <p class="closing-paragraph">
+                            Please present this letter upon entry. We anticipate an exquisite evening filled with illuminating discussions and refined entertainment.
+                        </p>
+                    </div>
+                    
+                    <div class="letter-footer">
+                        <div class="reg-number-display">
+                            Registration: <span id="letter-reg-no"></span>
+                        </div>
+                        
+                        <!-- Unique Invitation Code Section -->
+                        <div class="code-seal-container">
+                            <div class="seal-inner">
+                                <div class="seal-label">TICKET CODE</div>
+                                <div id="letter-code" class="seal-code"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= ADMIN LOGIN SECTION ================= -->
+        <section id="view-admin-login" class="view-section">
+            <div class="card-container login-card">
+                <div class="card-header text-center">
+                    <div class="lock-shield-icon">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h2>Admin Authentication</h2>
+                    <p class="card-subtitle">Restricted access area. Please enter security password.</p>
+                </div>
+                
+                <form id="admin-login-form" onsubmit="handleAdminLogin(event)">
+                    <div class="form-group">
+                        <label for="admin-password"><i class="fa-solid fa-key"></i> Security Password</label>
+                        <input type="password" id="admin-password" required placeholder="Enter password...">
+                    </div>
+                    <div id="login-feedback" class="feedback-msg error-text"></div>
+                    <button type="submit" class="submit-btn gold-gradient-btn">
+                        <span>Access Dashboard</span>
+                        <i class="fa-solid fa-unlock"></i>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- ================= ADMIN DASHBOARD SECTION ================= -->
+        <section id="view-admin-dashboard" class="view-section">
+            
+            <div class="admin-top-bar">
+                <div>
+                    <h1 class="admin-title">Gala Administrative Dashboard</h1>
+                    <p class="admin-subtitle">Live registration monitoring & lottery draw console</p>
+                </div>
+                <button class="logout-btn" onclick="logoutAdmin()">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </button>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card total-card">
+                    <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+                    <div class="stat-info">
+                        <div class="stat-label">Total Attendees</div>
+                        <div id="stat-total" class="stat-value">0</div>
+                    </div>
+                </div>
+                <div class="stat-card year-card" data-year="1">
+                    <div class="stat-num">Y1</div>
+                    <div class="stat-info">
+                        <div class="stat-label">First Years</div>
+                        <div id="stat-y1" class="stat-value">0</div>
+                    </div>
+                </div>
+                <div class="stat-card year-card" data-year="2">
+                    <div class="stat-num">Y2</div>
+                    <div class="stat-info">
+                        <div class="stat-label">Second Years</div>
+                        <div id="stat-y2" class="stat-value">0</div>
+                    </div>
+                </div>
+                <div class="stat-card year-card" data-year="3">
+                    <div class="stat-num">Y3</div>
+                    <div class="stat-info">
+                        <div class="stat-label">Third Years</div>
+                        <div id="stat-y3" class="stat-value">0</div>
+                    </div>
+                </div>
+                <div class="stat-card year-card" data-year="4">
+                    <div class="stat-num">Y4</div>
+                    <div class="stat-info">
+                        <div class="stat-label">Fourth Years</div>
+                        <div id="stat-y4" class="stat-value">0</div>
+                    </div>
+                </div>
+                <div class="stat-card year-card" data-year="5">
+                    <div class="stat-num">Y5</div>
+                    <div class="stat-info">
+                        <div class="stat-label">Fifth Years</div>
+                        <div id="stat-y5" class="stat-value">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Split Panel -->
+            <div class="dashboard-grid">
+                
+                <!-- Left Column: Lottery Draw Section -->
+                <div class="card-container dashboard-left">
+                    <div class="card-header border-b">
+                        <h2><i class="fa-solid fa-gift gold-text"></i> Ticket Code Lottery Drawer</h2>
+                        <p class="card-subtitle">Real-time scroll wheel selection, search focalization, and lottery spin draw.</p>
+                    </div>
+
+                    <div class="lottery-wheel-container">
+                        <!-- Upper/Lower gradient overlays for 3D depth -->
+                        <div class="wheel-gradient-top"></div>
+                        <div class="wheel-gradient-bottom"></div>
+                        <div class="wheel-pointer-left"></div>
+                        <div class="wheel-pointer-right"></div>
+                        
+                        <!-- The actual scrollable list -->
+                        <div id="lottery-reel" class="lottery-reel">
+                            <!-- Populated dynamically by javascript -->
+                        </div>
+                    </div>
+
+                    <!-- Spin and search panel -->
+                    <div class="lottery-actions">
+                        <div class="lottery-form-row">
+                            <div class="form-group flex-1">
+                                <label for="target-code-input">Target Code Focalizer</label>
+                                <div class="input-with-btn">
+                                    <input type="text" id="target-code-input" placeholder="e.g. 3003419" oninput="handleTargetCodeInput(this.value)">
+                                    <button class="icon-input-btn" title="Clear Code Selection" onclick="clearTargetCodeInput()">
+                                        <i class="fa-solid fa-xmark"></i>
+                                    </button>
+                                </div>
+                                <small class="helper-text">Enter a registered ticket code. The reel will scroll dynamically to center it.</small>
+                            </div>
+                        </div>
+
+                        <div class="button-group">
+                            <button id="btn-spin-lottery" class="gold-gradient-btn spin-btn flex-1" onclick="spinLottery()">
+                                <i class="fa-solid fa-circle-notch fa-spin-fast hidden" id="spin-spinner"></i>
+                                <span id="spin-text"><i class="fa-solid fa-clover"></i> Spin Lottery Winner</span>
+                            </button>
+                            <button class="secondary-btn" title="Reshuffle Codes" onclick="rebuildLotteryReel(true)">
+                                <i class="fa-solid fa-shuffle"></i> Shuffler
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="winner-announcement" class="winner-alert hidden">
+                        <div class="winner-trophy"><i class="fa-solid fa-trophy"></i></div>
+                        <div>
+                            <div class="winner-title">Lottery Drawn Winner!</div>
+                            <div id="winner-name" class="winner-name-text">Recipient Name</div>
+                            <div id="winner-details" class="winner-details-text">Code: 1001024 (Year 1)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Attendees list -->
+                <div class="card-container dashboard-right">
+                    <div class="card-header border-b">
+                        <h2><i class="fa-solid fa-list-ul"></i> Registered Attendees</h2>
+                        <p class="card-subtitle">Sorted by Year of Study. Monitor names, emails, and generated codes.</p>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="attendee-table">
+                            <thead>
+                                <tr>
+                                    <th>Attendee Details</th>
+                                    <th>Reg. Number</th>
+                                    <th class="text-center">Year</th>
+                                    <th class="text-right">Code</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="attendee-table-body">
+                                <!-- Populated dynamically by javascript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <p>&copy; 2026 KUPSA GALA. All rights reserved. Elegant Event Planners.</p>
+    </footer>
+
+    <!-- JavaScript Files -->
+    <script src="firebase.js"></script>
+    <script src="gala.js"></script>
+</body>
+</html>
